@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت سال زراعی | سامانه هاویرکشت</title>
+
+    <!-- Tailwind output -->
+    <link rel="stylesheet" href="./src/output.css" />
+  </head>
+
+  <body class="min-h-screen text-slate-100">
+    <!-- Background -->
+    <div class="fixed inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900"></div>
+      <div class="absolute -top-20 -right-24 h-96 w-96 rounded-full bg-indigo-600/20 blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-fuchsia-600/10 blur-3xl"></div>
+      <div class="absolute inset-0 opacity-20">
+        <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Sidebar overlay -->
+    <div id="overlay" class="fixed inset-0 z-40 hidden bg-black/55 backdrop-blur-sm"></div>
+
+    <!-- Modal overlay -->
+    <div
+      id="modalOverlay"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+    ></div>
+
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 right-0 z-50 w-80 translate-x-full
+               bg-gradient-to-b from-slate-900/85 to-emerald-900/45 p-4
+               ring-1 ring-white/10 backdrop-blur-xl transition-transform duration-300"
+      >
+        <div class="mb-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5z"/>
+              </svg>
+            </span>
+            <div class="leading-tight">
+              <div class="text-xs text-slate-200/70">سامانه</div>
+              <div class="text-base font-extrabold">هاویرکشت</div>
+            </div>
+          </div>
+
+          <button
+            id="closeSidebar"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+            aria-label="بستن منو"
+            type="button"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <nav class="space-y-2">
+          <a class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10 hover:bg-white/10" href="./dashboard.html">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12l2-2 4 4 8-8 4 4"/>
+              </svg>
+            </span>
+            <span class="font-semibold">داشبورد</span>
+          </a>
+
+          <details class="group rounded-2xl bg-white/5 ring-1 ring-white/10 open:bg-white/10" open>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16v16H4z"/><path d="M4 9h16"/><path d="M9 4v16"/>
+                  </svg>
+                </span>
+                <span class="font-semibold">داده های اولیه</span>
+              </div>
+              <svg class="h-4 w-4 text-slate-200/70 transition group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </summary>
+
+            <div class="px-4 pb-3">
+              <a class="block rounded-xl px-3 py-2 text-sm text-slate-200/80 hover:bg-white/10" href="./province.html">ثبت استان</a>
+              <a class="mt-1 block rounded-xl bg-white/10 px-3 py-2 text-sm font-semibold text-slate-100 ring-1 ring-white/10" href="./crop-year.html">
+                ثبت سال زراعی
+              </a>
+              
+            </div>
+          </details>
+        </nav>
+
+        <div class="mt-6 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+          <div class="flex items-center justify-between">
+            <div class="text-sm font-semibold">کاربر: پیمانکار</div>
+            <span class="inline-flex items-center gap-2 text-xs text-emerald-200/80">
+              <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+              آنلاین
+            </span>
+          </div>
+          <div class="mt-2 text-xs text-slate-200/70">
+            سال زراعی: <span id="sideSelectedYear">-</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="flex-1">
+        <!-- Topbar -->
+        <header class="sticky top-0 z-30 bg-slate-950/30 backdrop-blur-xl ring-1 ring-white/10">
+          <div class="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-3">
+            <button
+              id="openSidebar"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+              aria-label="منو"
+              type="button"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
+            <div class="relative flex-1">
+              <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-200/60">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M21 21l-4.3-4.3" />
+                </svg>
+              </span>
+              <input
+                class="w-full rounded-2xl bg-white/5 py-3 pr-11 pl-4 text-sm text-slate-100 outline-none ring-1 ring-white/10 placeholder:text-slate-300/40 focus:ring-2 focus:ring-indigo-400/70"
+                placeholder="صفحه مورد نظر را جستجو کنید..."
+              />
+            </div>
+          </div>
+        </header>
+
+        <main class="mx-auto max-w-[1400px] px-4 py-6">
+          <!-- breadcrumb -->
+          <div class="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+            <div class="flex items-center justify-between gap-3">
+              <div class="text-sm text-slate-200/70">
+                <a class="hover:text-slate-100" href="./dashboard.html">هاویرکشت</a>
+                <span class="mx-2 text-slate-200/40">‹</span>
+                <span class="font-semibold text-slate-100">ثبت سال زراعی</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main card -->
+          <section class="mt-5 rounded-3xl bg-white/10 p-5 ring-1 ring-white/12 backdrop-blur-xl">
+            <!-- Controls row (مثل عکس) -->
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <button
+                id="btnCreateYear"
+                class="inline-flex w-fit items-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-bold text-white ring-1 ring-white/10 hover:brightness-110 active:brightness-95"
+                type="button"
+              >
+                <span class="inline-flex h-6 w-6 items-center justify-center rounded-xl bg-white/15">+</span>
+                ایجاد سال زراعی جدید
+              </button>
+
+              <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-end md:gap-6">
+                <div class="text-sm text-slate-200/80">
+                  سال زراعی انتخاب شده:
+                  <span id="selectedYearLabel" class="font-bold text-blue-400">-</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <label class="text-sm font-semibold text-slate-200/80">انتخاب سال زراعی:</label>
+                  <div class="relative">
+                    <select
+                      id="yearSelect"
+                      class="w-56 rounded-2xl bg-white/10 py-2 pr-3 pl-10 text-sm text-slate-100 outline-none ring-1 ring-white/10 focus:ring-2 focus:ring-indigo-400/70"
+                    >
+                      <option value="">انتخاب کنید</option>
+                    </select>
+                    <span class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-200/70">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m6 9 6 6 6-6"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <label class="text-sm text-slate-200/80" for="searchInput">جستجو:</label>
+                  <div class="relative">
+                    <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-200/60">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M21 21l-4.3-4.3"></path>
+                      </svg>
+                    </span>
+                    <input
+                      id="searchInput"
+                      class="w-56 rounded-2xl bg-white/10 py-2 pr-9 pl-3 text-sm text-slate-100 outline-none ring-1 ring-white/10 placeholder:text-slate-300/40 focus:ring-2 focus:ring-indigo-400/70"
+                      placeholder=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="mt-4 overflow-hidden rounded-2xl ring-1 ring-white/10">
+              <table class="w-full text-right text-sm">
+                <thead class="bg-white/5 text-slate-200/80">
+                  <tr>
+                    <th class="px-4 py-3 font-semibold">سال زراعی</th>
+                    <th class="px-4 py-3 font-semibold">تاریخ ایجاد</th>
+                    <th class="px-4 py-3 font-semibold">عملیات</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody" class="divide-y divide-white/10 bg-slate-950/10">
+                  <!-- rows by JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-4 flex items-center justify-between">
+              <div class="text-xs text-slate-200/60">
+                صفحه <span id="pageLabel">1</span> از <span id="pagesLabel">1</span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button id="btnPrev" class="rounded-xl bg-white/5 px-3 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10 disabled:opacity-40" type="button">قبلی</button>
+                <span id="pagePill" class="inline-flex h-9 min-w-9 items-center justify-center rounded-xl bg-indigo-500/20 px-3 text-sm font-bold ring-1 ring-indigo-400/20">1</span>
+                <button id="btnNext" class="rounded-xl bg-white/5 px-3 py-2 text-sm ring-1 ring-white/10 hover:bg-white/10 disabled:opacity-40" type="button">بعدی</button>
+              </div>
+            </div>
+          </section>
+
+          <footer class="mt-10 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-slate-200/50">
+            <span>© ۲۰۲۵ سامانه هاویر کشت</span>
+            <span>طراحی شده توسط شرکت هوشمند پرداز هاویر</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <!-- Modal Template (مثل عکس) -->
+    <template id="tplCreateYearModal">
+      <div class="w-full max-w-2xl rounded-2xl bg-white p-0 text-slate-900 shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+          <h3 class="text-base font-extrabold">ایجاد سال زراعی جدید</h3>
+          <button data-close class="inline-flex h-10 w-10 items-center justify-center rounded-2xl hover:bg-slate-100" type="button" aria-label="بستن">
+            ✕
+          </button>
+        </div>
+
+        <div class="px-6 py-6">
+          <div class="flex items-center gap-4">
+            <label class="w-24 text-sm font-semibold whitespace-nowrap">سال زراعی :</label>
+            <input
+              id="inputCropYear"
+              class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-indigo-400"
+              placeholder="سال زراعی را وارد کنید..."
+            />
+          </div>
+
+          <div class="mt-8 flex justify-center">
+            <button id="btnSubmitCropYear" class="rounded-2xl bg-blue-600 px-12 py-3 text-sm font-bold text-white hover:bg-blue-700" type="button">
+              ثبت
+            </button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="./assets/js/crop-year.js"></script>
+
+
+    <script>
+      // ===== Sidebar hamburger =====
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const openBtn = document.getElementById("openSidebar");
+      const closeBtn = document.getElementById("closeSidebar");
+
+      let sidebarOpen = false;
+      function openSidebar() {
+        if (sidebarOpen) return;
+        sidebarOpen = true;
+        sidebar.classList.remove("translate-x-full");
+        overlay.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+      }
+      function closeSidebar() {
+        if (!sidebarOpen) return;
+        sidebarOpen = false;
+        sidebar.classList.add("translate-x-full");
+        overlay.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+      }
+
+      openBtn?.addEventListener("click", openSidebar);
+      closeBtn?.addEventListener("click", closeSidebar);
+      overlay?.addEventListener("click", closeSidebar);
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeSidebar();
+      });
+    </script>
+  </body>
+</html>

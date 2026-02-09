@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>داشبورد | سامانه هاویرکشت</title>
+
+    <!-- Tailwind output (CLI) -->
+    <link rel="stylesheet" href="./src/output.css" />
+  </head>
+
+  <body class="min-h-screen text-slate-100">
+    <!-- Background -->
+    <div class="fixed inset-0 -z-10">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900"
+      ></div>
+      <div
+        class="absolute -top-20 -right-24 h-96 w-96 rounded-full bg-indigo-600/20 blur-3xl"
+      ></div>
+      <div
+        class="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-fuchsia-600/10 blur-3xl"
+      ></div>
+
+      <div class="absolute inset-0 opacity-20">
+        <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id="grid"
+              width="48"
+              height="48"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M 48 0 L 0 0 0 48"
+                fill="none"
+                stroke="rgba(255,255,255,0.08)"
+                stroke-width="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div
+      id="overlay"
+      class="fixed inset-0 z-40 hidden bg-black/55 backdrop-blur-sm"
+    ></div>
+
+    <div class="flex min-h-screen">
+      <!-- ✅ Sidebar: Hamburger Off-canvas (always) -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 right-0 z-50 w-80 translate-x-full
+               bg-gradient-to-b from-slate-900/85 to-emerald-900/45 p-4
+               ring-1 ring-white/10 backdrop-blur-xl transition-transform duration-300"
+      >
+        <!-- Brand -->
+        <div class="mb-4 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span
+              class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5z"
+                />
+              </svg>
+            </span>
+            <div class="leading-tight">
+              <div class="text-xs text-slate-200/70">سامانه</div>
+              <div class="text-base font-extrabold">هاویرکشت</div>
+            </div>
+          </div>
+
+          <button
+            id="closeSidebar"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+            aria-label="بستن منو"
+            type="button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Nav -->
+        <nav class="space-y-2">
+          <a
+            class="flex items-center gap-3 rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10 hover:bg-white/15"
+            href="./dashboard.html"
+          >
+            <span
+              class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M3 12l2-2 4 4 8-8 4 4" />
+              </svg>
+            </span>
+            <span class="font-semibold">داشبورد</span>
+          </a>
+
+          <!-- ✅ فقط همین بخش برای پروژه تو مهمه -->
+          <details
+            class="group rounded-2xl bg-white/5 ring-1 ring-white/10 open:bg-white/10"
+            open
+          >
+            <summary
+              class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3"
+            >
+              <div class="flex items-center gap-3">
+                <span
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M4 4h16v16H4z" />
+                    <path d="M4 9h16" />
+                    <path d="M9 4v16" />
+                  </svg>
+                </span>
+                <span class="font-semibold">داده های اولیه</span>
+              </div>
+
+              <svg
+                class="h-4 w-4 text-slate-200/70 transition group-open:rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </summary>
+
+            <div class="px-4 pb-3">
+              <!-- ✅ ثبت سال زراعی -->
+              <a
+                class="block rounded-xl px-3 py-2 text-sm text-slate-200/80 hover:bg-white/10"
+                href="./crop-year.html"
+                >ثبت سال زراعی</a
+              >
+
+              <!-- ✅ ثبت استان -->
+              <a
+                class="block rounded-xl px-3 py-2 text-sm text-slate-200/80 hover:bg-white/10"
+                href="./province.html"
+                >ثبت استان</a
+              >
+            </div>
+          </details>
+
+          <!-- بقیه لینک‌ها لازم نیست فعال باشن -->
+          <a
+            class="flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10 hover:bg-white/10"
+            href="#"
+          >
+            <span
+              class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/10"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"
+                />
+              </svg>
+            </span>
+            <span class="font-semibold">پشتیبانی</span>
+          </a>
+        </nav>
+
+        <div class="mt-6 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+          <div class="flex items-center justify-between">
+            <div class="text-sm font-semibold">کاربر: پیمانکار</div>
+            <span class="inline-flex items-center gap-2 text-xs text-emerald-200/80">
+              <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+              آنلاین
+            </span>
+          </div>
+          <div class="mt-2 text-xs text-slate-200/70">سال زراعی: ۱۴۰۴</div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="flex-1">
+        <!-- Topbar -->
+        <header
+          class="sticky top-0 z-30 bg-slate-950/30 backdrop-blur-xl ring-1 ring-white/10"
+        >
+          <div class="mx-auto flex max-w-[1400px] items-center gap-3 px-4 py-3">
+            <button
+              id="openSidebar"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+              aria-label="منو"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+
+            <div class="relative flex-1">
+              <span
+                class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-200/60"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="M21 21l-4.3-4.3" />
+                </svg>
+              </span>
+              <input
+                class="w-full rounded-2xl bg-white/5 py-3 pr-11 pl-4 text-sm text-slate-100 outline-none ring-1 ring-white/10 placeholder:text-slate-300/40 focus:ring-2 focus:ring-indigo-400/70"
+                placeholder="صفحه مورد نظر را جستجو کنید..."
+              />
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                aria-label="اعلان‌ها"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5"
+                  />
+                  <path d="M9 17a3 3 0 0 0 6 0" />
+                </svg>
+              </button>
+
+              <button
+                class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                aria-label="تنظیمات سریع"
+                type="button"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7z"
+                  />
+                  <path
+                    d="M19.4 15a7.9 7.9 0 0 0 .1-1l2-1.6-2-3.4-2.5 1a8.1 8.1 0 0 0-1.7-1L15 4h-6l-.3 3a8.1 8.1 0 0 0-1.7 1L4.5 7l-2 3.4L4.5 12l-2 1.6 2 3.4 2.5-1a8.1 8.1 0 0 0 1.7 1L9 20h6l.3-3a8.1 8.1 0 0 0 1.7-1l2.5 1 2-3.4-2.1-1.6z"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              class="mr-2 flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-2 ring-1 ring-white/10"
+            >
+              <span
+                class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-l from-indigo-500 to-fuchsia-500 text-sm font-extrabold text-white"
+              >
+                پ
+              </span>
+              <div class="hidden sm:block leading-tight">
+                <div class="text-sm font-bold">پیمانکار</div>
+                <div class="text-xs text-slate-200/70">کاربر آموزشی</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main class="mx-auto max-w-[1400px] px-4 py-6">
+          <!-- سال زراعی -->
+          <div class="mb-5 flex items-center justify-center">
+            <span
+              class="rounded-full bg-white/5 px-4 py-2 text-xs text-slate-200/80 ring-1 ring-white/10"
+            >
+              سال زراعی: ۱۴۰۴
+            </span>
+          </div>
+
+          <!-- Cards -->
+          <section
+            class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          >
+            <div
+              class="rounded-3xl bg-white/10 p-4 ring-1 ring-white/12 backdrop-blur-xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.8)]"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-sm font-semibold text-slate-200/80">
+                    جمع بدهی به کشاورزان
+                  </div>
+                  <div class="mt-2 text-xl font-extrabold text-rose-200">
+                    ۴۴,۵۳۰,۲۰۹,۶۸۵
+                  </div>
+                  <div class="mt-1 text-xs text-slate-200/60">تومان</div>
+                </div>
+                <span
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-400/20"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-rose-300"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 19V5" />
+                    <path d="M5 12l7-7 7 7" />
+                    <path d="M19 12l-7 7-7-7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div
+              class="rounded-3xl bg-white/10 p-4 ring-1 ring-white/12 backdrop-blur-xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.8)]"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-sm font-semibold text-slate-200/80">
+                    کل تناژ تحویلی کشاورزان
+                  </div>
+                  <div class="mt-2 text-xl font-extrabold text-emerald-200">
+                    ۱۶,۰۱۰
+                  </div>
+                  <div class="mt-1 text-xs text-slate-200/60">تن</div>
+                </div>
+                <span
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 ring-1 ring-emerald-400/20"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-emerald-300"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 3v18" />
+                    <path d="M6 7h12" />
+                    <path d="M7 21h10" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div
+              class="rounded-3xl bg-white/10 p-4 ring-1 ring-white/12 backdrop-blur-xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.8)]"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-sm font-semibold text-slate-200/80">
+                    تعداد قرارداد کشاورزان
+                  </div>
+                  <div class="mt-2 text-xl font-extrabold text-indigo-200">
+                    ۴۲۹
+                  </div>
+                  <div class="mt-1 text-xs text-slate-200/60">قرارداد</div>
+                </div>
+                <span
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/10 ring-1 ring-indigo-400/20"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-indigo-300"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                    />
+                    <path d="M14 2v6h6" />
+                    <path d="M8 13h8M8 17h8" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div
+              class="rounded-3xl bg-white/10 p-4 ring-1 ring-white/12 backdrop-blur-xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.8)]"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-sm font-semibold text-slate-200/80">
+                    مانده فعلی در حساب پیمانکار
+                  </div>
+                  <div class="mt-2 text-xl font-extrabold text-teal-200">
+                    ۳,۸۲۷,۸۱۴,۵۵۰
+                  </div>
+                  <div class="mt-1 text-xs text-slate-200/60">تومان</div>
+                </div>
+                <span
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-teal-500/10 ring-1 ring-teal-400/20"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-teal-300"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 8v8M8 12h8" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div
+              class="rounded-3xl bg-white/10 p-4 ring-1 ring-white/12 backdrop-blur-xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.8)]"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-sm font-semibold text-slate-200/80">
+                    کارمزد پیمانکار (یک درصد)
+                  </div>
+                  <div class="mt-2 text-xl font-extrabold text-fuchsia-200">
+                    ۶۶۹,۷۷۷,۰۱۳
+                  </div>
+                  <div class="mt-1 text-xs text-slate-200/60">تومان</div>
+                </div>
+                <span
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-fuchsia-500/10 ring-1 ring-fuchsia-400/20"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-fuchsia-300"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M12 20V10" />
+                    <path d="M18 20V4" />
+                    <path d="M6 20v-6" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div
+              class="rounded-3xl bg-white/10 p-4 ring-1 ring-white/12 backdrop-blur-xl shadow-[0_18px_60px_-30px_rgba(0,0,0,0.8)] sm:col-span-2 lg:col-span-2"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <div class="text-sm font-semibold text-slate-200/80">
+                    وضعیت کل پیمانکار
+                  </div>
+                  <div class="mt-2 text-xl font-extrabold text-indigo-200">
+                    ۳,۸۲۷,۸۱۴,۵۵۰
+                  </div>
+                  <div class="mt-1 text-xs text-slate-200/60">تومان</div>
+                </div>
+                <span
+                  class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/10 ring-1 ring-indigo-400/20"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-indigo-300"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M4 19V5" />
+                    <path d="M4 19h16" />
+                    <path d="M8 16V9" />
+                    <path d="M12 16V7" />
+                    <path d="M16 16v-4" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer
+            class="mt-10 flex items-center justify-between border-t border-white/10 pt-4 text-xs text-slate-200/50"
+          >
+            <span>© ۲۰۲۵ سامانه هاویر کشت</span>
+            <span>طراحی شده توسط شرکت هوشمند پرداز هاویر</span>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const openBtn = document.getElementById("openSidebar");
+      const closeBtn = document.getElementById("closeSidebar");
+
+      let isOpen = false;
+
+      function openSidebar() {
+        if (isOpen) return;
+        isOpen = true;
+        sidebar.classList.remove("translate-x-full");
+        overlay.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+      }
+
+      function closeSidebar() {
+        if (!isOpen) return;
+        isOpen = false;
+        sidebar.classList.add("translate-x-full");
+        overlay.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+      }
+
+      openBtn.addEventListener("click", openSidebar);
+      closeBtn.addEventListener("click", closeSidebar);
+      overlay.addEventListener("click", closeSidebar);
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeSidebar();
+      });
+    </script>
+  </body>
+</html>

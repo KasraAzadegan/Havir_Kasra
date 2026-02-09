@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>صفحه ورود | هاویرکشت</title>
+
+    <link href="./src/output.css" rel="stylesheet">
+
+    <style>
+      @font-face {
+        font-family: Vazirmatn;
+        src: local("Vazirmatn");
+      }
+      body { font-family: Vazirmatn, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    </style>
+  </head>
+
+  <body class="min-h-screen text-slate-100">
+    <!-- Background -->
+    <div class="fixed inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900"></div>
+
+      <!-- Soft glow blobs -->
+      <div class="absolute -top-20 -right-24 h-96 w-96 rounded-full bg-indigo-600/20 blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-fuchsia-600/10 blur-3xl"></div>
+
+      <!-- subtle pattern -->
+      <div class="absolute inset-0 opacity-20">
+        <svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Top bar -->
+    <header class="w-full">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15 backdrop-blur">
+            <!-- home icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5z"/>
+            </svg>
+          </span>
+
+          <div class="leading-tight">
+            <div class="text-sm text-slate-200/80">سامانه پیمانکاران</div>
+            <div class="text-base font-semibold text-slate-100">چغندر قند هاویر کشت</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="mx-auto flex min-h-[calc(100vh-72px)] max-w-6xl items-center justify-center px-4 pb-10">
+      <section class="w-full max-w-md">
+        <!-- Card -->
+        <div class="rounded-3xl bg-white/10 p-6 ring-1 ring-white/15 backdrop-blur-xl shadow-[0_20px_80px_-20px_rgba(0,0,0,0.7)]">
+          <!-- Title -->
+          <div class="text-center">
+            <h1 class="text-xl font-extrabold tracking-tight text-indigo-200">صفحه ورود</h1>
+            <p class="mt-2 text-sm text-slate-200/70">صفحه ورود به سامانه هاویر کشت</p>
+          </div>
+
+          <!-- Form -->
+          <form id="loginForm" class="mt-6 space-y-4">
+            <!-- Username -->
+            <div>
+              <label class="mb-2 block text-sm font-semibold text-slate-100">نام کاربری</label>
+              <div class="relative">
+                <input
+                  id="username"
+                  type="text"
+                  value="edu_1401425"
+                  class="w-full rounded-2xl bg-slate-950/30 px-4 py-3 text-sm text-slate-100 outline-none ring-1 ring-white/10 placeholder:text-slate-300/40 focus:ring-2 focus:ring-indigo-400/70"
+                />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div>
+              <label class="mb-2 block text-sm font-semibold text-slate-100">رمز عبور</label>
+
+              <div class="relative">
+                <button
+                  type="button"
+                  id="togglePass"
+                  class="absolute inset-y-0 left-3 my-auto inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 hover:bg-white/10"
+                  aria-label="نمایش/مخفی کردن رمز"
+                >
+                  <!-- eye icon -->
+                  <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M2 12s3.5-7 10-7c2.4 0 4.4.8 6 1.9"/>
+                    <path d="M22 12s-3.5 7-10 7c-2.4 0-4.4-.8-6-1.9"/>
+                    <path d="M3 3l18 18"/>
+                    <path d="M10.6 10.6a3 3 0 0 0 4.2 4.2"/>
+                  </svg>
+                </button>
+
+                <input
+                  id="password"
+                  type="password"
+                  value="123pass_edu"
+                  class="w-full rounded-2xl bg-slate-950/30 px-4 py-3 pl-14 text-sm text-slate-100 outline-none ring-1 ring-white/10 placeholder:text-slate-300/40 focus:ring-2 focus:ring-indigo-400/70"
+                />
+              </div>
+            </div>
+
+            <!-- Remember -->
+            <div class="flex items-center justify-end gap-2 pt-1">
+              <label for="remember" class="text-sm text-slate-200/80 select-none">مرا به یاد داشته باش</label>
+              <input
+                id="remember"
+                type="checkbox"
+                class="h-4 w-4 rounded border-white/20 bg-white/10 text-indigo-400 focus:ring-indigo-400"
+              />
+            </div>
+
+            <!-- Primary button -->
+            <button
+              type="submit"
+              class="mt-2 w-full rounded-2xl bg-gradient-to-l from-indigo-500 to-fuchsia-500 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-indigo-500/20 ring-1 ring-white/10 hover:brightness-110 active:brightness-95"
+            >
+              ورود به سامانه
+            </button>
+
+            <!-- Divider -->
+            <div class="relative py-2">
+              <div class="h-px w-full bg-white/10"></div>
+              <span class="absolute inset-x-0 -top-1 mx-auto w-fit rounded-full bg-slate-900/80 px-3 text-xs text-slate-200/70 ring-1 ring-white/10">
+                ورود از طریق
+              </span>
+            </div>
+
+            <!-- Secondary button -->
+            <button
+              type="button"
+              class="w-full rounded-2xl bg-white/5 px-4 py-3 text-sm font-semibold text-slate-100 ring-1 ring-white/10 hover:bg-white/10"
+            >
+              ورود از طریق
+            </button>
+
+            <!-- Forgot -->
+            <div class="pt-2 text-center">
+              <a href="#" class="text-sm font-semibold text-indigo-200 hover:text-indigo-100">
+                پسورد خود را فراموش کرده ام؟
+              </a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Footer note -->
+        <p class="mt-6 text-center text-xs text-slate-200/60">
+          کلیه حقوق مادی و معنوی این سامانه متعلق به شرکت هاویر می‌باشد.
+          <span class="text-slate-200/50">(www.Havir.ir)</span>
+        </p>
+      </section>
+    </main>
+
+    <script>
+      const btn = document.getElementById("togglePass");
+      const pass = document.getElementById("password");
+      const eyeOpen = document.getElementById("eyeOpen");
+      const eyeClosed = document.getElementById("eyeClosed");
+
+      btn.addEventListener("click", () => {
+        const isHidden = pass.type === "password";
+        pass.type = isHidden ? "text" : "password";
+        eyeOpen.classList.toggle("hidden", isHidden);
+        eyeClosed.classList.toggle("hidden", !isHidden);
+      });
+    </script>
+
+    <!-- ✅ SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- ✅ Login Logic (Module) -->
+    <script type="module" src="./assets/js/login.js"></script>
+  </body>
+</html>
